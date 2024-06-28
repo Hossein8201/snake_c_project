@@ -3,15 +3,9 @@
 #include <unistd.h>
 #include <conio.h>
 #include <time.h>
+//include your customer header:
+#include "snake_functions.h"
 
-//the length of board of the game:
-#define WIDTH 30
-#define LENGTH 40
-//define the direction movements signs:
-#define RIGHT 0
-#define LEFT 1
-#define UP 2
-#define DOWN 3
 //define your global variable:
 int game_begin;
 int snake_head[2];
@@ -24,16 +18,8 @@ int game_over;
 char game_board[30][40];
 //calculate the time of servival and time of sleep
 clock_t start_game, end_game, start_time, end_time;    
-//the notification of functions:
-void setup();
-void choose_board();
-void unbound_field();
-void closed_field();
-void movement();
-void food_generation();
-void accident();
-void input();
-void display();
+
+//define the fuctions:
 
 //this down group create the game board:
 void unbound_field(){
@@ -172,36 +158,3 @@ void display(){
     }
     printf("your score : %d\n",score);
 }
-
-int main(){
-    printf("welcome to the SNAKE GAME. if you want to start the game, press \"1\" or not press \"0\" : ");
-    scanf("%d",&game_begin);
-    while(game_begin){
-        system("cls");
-        srand(time(0));        //to use the random numbers
-        choose_board();        //ask us in the beginning of the program
-        //calculate the time:
-        start_game = clock();
-        start_time = clock();
-        //
-        setup();
-        display();
-        while(game_over == 0){
-            end_time = clock();
-            if((double) (end_time - start_time) / (double) CLOCKS_PER_SEC >= 0.3){      //the sleep time:
-                input();
-                movement();
-                accident();
-                display();
-                start_time = clock();
-            }
-        }
-        end_game = clock();
-        double time_taken;
-        time_taken = (double) (end_game - start_game) / (double) CLOCKS_PER_SEC;
-        printf("your survival time : %.3lf\n\n",time_taken);
-        printf("-----> if you want to restart the game, press \"1\" or not press \"0\" : ");
-        scanf("%d",&game_begin);
-    }
-}
-

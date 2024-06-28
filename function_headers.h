@@ -1,2 +1,0 @@
-
-void snake_move();
