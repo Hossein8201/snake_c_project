@@ -28,6 +28,7 @@ void setup();
 void choose_board();
 void unbound_field();
 void closed_field();
+void forest_field();
 void movement();
 void food_generation();
 void accident();

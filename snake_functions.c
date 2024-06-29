@@ -25,7 +25,9 @@ clock_t start_game, end_game, start_time, end_time;
 void unbound_field(){
     for(int i=0;i<WIDTH;i++){
         for(int j=0;j<LENGTH;j++){
-            game_board[i][j] = ' ';
+            if(i==0 || i== WIDTH-1)      game_board[i][j] = '-';
+            else if(j==0 || j== LENGTH-1)    game_board[i][j] = '|';
+            else    game_board[i][j] = ' ';
         }
     }
 }
@@ -39,14 +41,35 @@ void closed_field(){
     }
 }
 
+void forest_field(){
+    for(int i=0;i<WIDTH;i++){
+        for(int j=0;j<LENGTH;j++){
+            if(i==0 || i== WIDTH-1 || j==0 || j== LENGTH-1)    game_board[i][j] = '+';
+            else    game_board[i][j] = ' ';
+        }
+    }
+    int number=0;
+    while(number != 7){
+        int a, b, n;
+        a = rand()%7+1;     b = rand()%7+1;     n = rand()%22;
+        if(n <= WIDTH/2-9 || n >= WIDTH/2){
+            for(int j=0;j<a;j++)    for(int k=0;k<b;k++)    game_board[n+j][n+k] = '+';
+            number++;
+        }
+    }
+}
+
 void choose_board(){       
     printf("Choose your game field you want to play in there : \n");
     printf("1) unbound field\n");
     printf("2) closed field\n");
+    printf("3) forest field\n");
     printf("your choose : ");       int board_number;      scanf("%d",&board_number);
     switch(board_number){
         case 1 :    unbound_field();    break;
         case 2 :    closed_field();     break;
+        case 3 :    forest_field();     break;
+        default:    unbound_field();    break;
     }
 }
 //this up group create the game board:
@@ -77,8 +100,8 @@ void movement(){
         case DOWN  :    snake_head[0]++;    break;
     }
     //the snake shoud be inside of the board:
-    snake_head[0] = (snake_head[0] >= WIDTH) ? 0 : (snake_head[0] < 0) ? WIDTH-1 : snake_head[0];  
-    snake_head[1] = (snake_head[1] >= LENGTH) ? 0 : (snake_head[1] < 0) ? LENGTH-1 : snake_head[1];
+    snake_head[0] = (snake_head[0] >= WIDTH-1 && game_board[WIDTH-1][0] == '-') ? 1 : (snake_head[0] <= 0 && game_board[0][0] == '-') ? WIDTH-2 : snake_head[0];  
+    snake_head[1] = (snake_head[1] >= LENGTH-1 && game_board[1][LENGTH-1] == '|') ? 1 : (snake_head[1] <= 0 && game_board[1][0] == '|') ? LENGTH-2 : snake_head[1];
     //if the snake eat the food, give it +10 point and create a food again:
     if(snake_head[0] == food_position[0] && snake_head[1] == food_position[1]){
         score += 10;    snake_length++;     food_generation();      //and increase the length of the snake:
@@ -126,6 +149,7 @@ void input(){
             case 'a' :      if(present_direct != RIGHT)  present_direct = LEFT;     break;
             case 'd' :      if(present_direct != LEFT)   present_direct = RIGHT;    break;
             case '0' :      game_over = 1;     break;
+            default  :      ;
         }
     }
 }
