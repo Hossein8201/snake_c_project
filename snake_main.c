@@ -21,7 +21,7 @@ int main(){
         display();
         while(game_over == 0){
             end_time = clock();
-            if((double) (end_time - start_time) / (double) CLOCKS_PER_SEC >= 0.3){      //the sleep time:
+            if((double) (end_time - start_time) / (double) CLOCKS_PER_SEC >= 0.2){      //the sleep time:
                 input();
                 movement();
                 accident();
