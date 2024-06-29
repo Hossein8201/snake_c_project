@@ -17,7 +17,7 @@ int score;
 int game_over;
 char game_board[30][40];
 //calculate the time of servival and time of sleep
-clock_t start_game, end_game, start_time, end_time;    
+clock_t start_game, end_game, start_time, end_time; 
 
 //define the fuctions:
 

@@ -22,7 +22,7 @@ extern int game_over;
 extern char game_board[30][40];
 //calculate the time of servival and time of sleep
 extern clock_t start_game, end_game, start_time, end_time; 
-   
+
 //the notification of functions:
 void setup();
 void choose_board();
